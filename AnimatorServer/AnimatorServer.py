@@ -15,8 +15,8 @@ class AnimatorServer(socketserver.BaseRequestHandler):
     """
     def handle(self):
         jam = str(self.request.recv(1024).strip(), 'utf-8')
-        print("Received GUI Action {0} ".format(s['action']))
         s = json.loads(jam)
+        print("Received GUI Action {0} ".format(s['action']))
         if s['action'] == 'test':
             self.test_signal(s['data'])
         #self.play(s['data'])

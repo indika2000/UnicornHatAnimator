@@ -22,24 +22,22 @@ class App(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
 
-        button = QPushButton('Send Test Signal', self)
-        button.setToolTip('This is an example button')
-        button.move(100,70)
-        button.clicked.connect(self.on_click)
+        testbutton = QPushButton('Send Test Signal', self)
+        testbutton.setToolTip('Test Signal Button')
+        testbutton.move(100,70)
+        testbutton.clicked.connect(self.on_testbutton_click)
 
         self.show()
 
     @pyqtSlot()
-    def on_click(self):
+    def on_testbutton_click(self):
         testtup = pickle.dumps((3, 3, 155, 233, 21))
-        testjson = '{ "data": [3, 3, 155, 233, 21] }'
+        testjson = '{ "action": "test", "data": [3, 3, 155, 233, 21] }'
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.connect(("192.168.0.40", 9999))
             print(testjson)
             try:
                 sock.sendall(bytes(testjson + '\n', 'utf-8'))
-                #sock.sendall(testtup)
-                print('sent? Must have')
             except:
                 pass
 

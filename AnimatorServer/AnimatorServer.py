@@ -43,6 +43,7 @@ class AnimatorServer(socketserver.BaseRequestHandler):
             print(self.request)
             print(self.client_address)
             self.request.sendall(bytes(json.dumps(server_config) + '\n', 'utf-8'))
+            print('sent stuff back')
 
 
 if __name__ == '__main__':

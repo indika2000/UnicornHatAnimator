@@ -46,11 +46,15 @@ class App(QWidget):
                     testjson = '{ "action": "test", "data": [3, 3, 155, 233, 21] }'
                     sock.connect((ip, 9999))
                     sock.sendall(bytes(testjson + '\n', 'utf-8'))
+                    print('Rec data before')
                     data_reply = str(sock.recv(1024), 'utf-8')
+                    print('Rec data after')
                     print(data_reply)
                 except OSError as msg:
                     print('Here!! {}'.format(msg))
                     sock.close()
+                except:
+                    print('some else is wrong')
 
 
 

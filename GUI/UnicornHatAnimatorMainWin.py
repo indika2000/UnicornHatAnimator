@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton
 from PyQt5.QtCore import pyqtSlot
 import socket
 import time
+import json
 
 class App(QWidget):
 
@@ -16,6 +17,7 @@ class App(QWidget):
         self.top = 30
         self.width = 640
         self.height = 480
+        self.connectedservers = []
         self.initUI()
 
     def initUI(self):
@@ -40,6 +42,7 @@ class App(QWidget):
         for e in range(39, 42):
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 ip = "192.168.0.{}".format(e)
+                #ip = "192.168.0.40"
                 print('Attempting to connect to {}'.format(ip))
                 sock.settimeout(0.1)
                 try:
@@ -47,9 +50,14 @@ class App(QWidget):
                     sock.connect((ip, 9999))
                     sock.sendall(bytes(testjson + '\n', 'utf-8'))
                     print('Rec data before')
+                    #sleep for 3 seconds as need to wait for reply from server to occur
+                    time.sleep(3)
                     data_reply = str(sock.recv(1024), 'utf-8')
                     print('Rec data after')
                     print(data_reply)
+                    print(json.loads(data_reply))
+                    self.connectedservers.append(json.loads(data_reply))
+                    print(self.connectedservers)
                 except OSError as msg:
                     print('Here!! {}'.format(msg))
                     sock.close()

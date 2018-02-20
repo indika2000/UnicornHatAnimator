@@ -40,7 +40,9 @@ class AnimatorServer(socketserver.BaseRequestHandler):
         # Send back confirmation of the ip address and the type of hat
         with open('server.json') as server_json:
             server_config = json.load(server_json)
-            self.request.sendall(bytes(json.dumps(server_config), 'utf-8'))
+            print(self.request)
+            print(self.client_address)
+            self.request.sendall(bytes(json.dumps(server_config) + '\n', 'utf-8'))
 
 
 if __name__ == '__main__':

@@ -1,8 +1,6 @@
 import socketserver
-import socket
-import pickle
 import json
-#import unicornhat as uni
+import unicornhat as uni
 import time
 
 class AnimatorServer(socketserver.BaseRequestHandler):
@@ -18,24 +16,34 @@ class AnimatorServer(socketserver.BaseRequestHandler):
         s = json.loads(jam)
         print("Received GUI Action {0} ".format(s['action']))
         if s['action'] == 'test':
-            self.test_signal(s['data'])
+            self.radar_signal(s['data'])
         #self.play(s['data'])
 
     def play(self, pixels):
         pass
 
-    def test_signal(self, pixels):
+    def radar_signal(self, pixels):
+        """
+        This is the broadcast handler from the Animation GUI to advise if a server has been found and
+        if it is a SD or HD hat
+        :param pixels:
+        :return:
+        """
+
+        # Show a test connection light for the pi
         uni.set_pixel(pixels[0], pixels[1], pixels[2], pixels[3], pixels[4])
         uni.show()
-        time.sleep(10)
+        time.sleep(2)
         uni.set_pixel(pixels[0], pixels[1], 0,0,0)
         uni.show()
 
-if __name__ == '__main__':
+        # Send back confirmation of the ip address and the type of hat
+        with open('server.json') as server_json:
+            server_config = json.load(server_json)
+            self.request.sendall(server_config)
 
-    a = 10
-    if a == 10:
-        import unicornhat as uni
+
+if __name__ == '__main__':
 
     HOST, PORT = '192.168.0.40', 9999
 

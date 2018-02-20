@@ -2,7 +2,7 @@ import socketserver
 import socket
 import pickle
 import json
-import unicornhat as uni
+#import unicornhat as uni
 import time
 
 class AnimatorServer(socketserver.BaseRequestHandler):
@@ -32,6 +32,11 @@ class AnimatorServer(socketserver.BaseRequestHandler):
         uni.show()
 
 if __name__ == '__main__':
+
+    a = 10
+    if a == 10:
+        import unicornhat as uni
+
     HOST, PORT = '192.168.0.40', 9999
 
     server = socketserver.TCPServer((HOST, PORT), AnimatorServer)
